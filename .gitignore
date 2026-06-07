@@ -1,0 +1,12 @@
+# Claude AI config
+.claude/
+CLAUDE.md
+
+# Dev/utility scripts
+screenshot.mjs
+serve.mjs
+shot-sections.mjs
+fix-wa-icons.js
+
+# Temporary files
+temporary screenshots/

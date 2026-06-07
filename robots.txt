@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /temporary screenshots/
+Disallow: /shot-sections.mjs
+Disallow: /screenshot.mjs
+
+Sitemap: https://renatazavodini.com.br/sitemap.xml
