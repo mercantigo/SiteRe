@@ -79,9 +79,17 @@ function Invoke-Checked {
         [int[]]$AllowedExitCodes = @(0)
     )
 
+    $effectiveArguments = $Arguments
+    if ($File -ieq "git") {
+        $effectiveArguments = @(
+            "-c", "safe.directory=$PublishDir",
+            "-c", "core.excludesFile="
+        ) + $Arguments
+    }
+
     Push-Location -LiteralPath $WorkingDirectory
     try {
-        & $File @Arguments
+        & $File @effectiveArguments
         $exitCode = $LASTEXITCODE
     }
     finally {
@@ -89,7 +97,7 @@ function Invoke-Checked {
     }
 
     if ($AllowedExitCodes -notcontains $exitCode) {
-        throw "Comando falhou ($exitCode): $File $($Arguments -join ' ')"
+        throw "Comando falhou ($exitCode): $File $($effectiveArguments -join ' ')"
     }
 }
 
@@ -100,9 +108,17 @@ function Test-Checked {
         [string]$WorkingDirectory
     )
 
+    $effectiveArguments = $Arguments
+    if ($File -ieq "git") {
+        $effectiveArguments = @(
+            "-c", "safe.directory=$PublishDir",
+            "-c", "core.excludesFile="
+        ) + $Arguments
+    }
+
     Push-Location -LiteralPath $WorkingDirectory
     try {
-        & $File @Arguments *> $null
+        & $File @effectiveArguments *> $null
         return ($LASTEXITCODE -eq 0)
     }
     finally {
